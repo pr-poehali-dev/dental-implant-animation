@@ -91,11 +91,41 @@
 }
 
 @layer base {
+  :root {
+    --background: 210 30% 6%;
+    --foreground: 200 20% 92%;
+    --clinical: 196 90% 56%;
+    --clinical-deep: 200 95% 42%;
+    --bone: 38 30% 88%;
+  }
   * {
     @apply border-border;
   }
-
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+    background-color: hsl(210 30% 6%);
+  }
+}
+
+@layer utilities {
+  .grid-bg {
+    background-image:
+      linear-gradient(hsl(196 90% 56% / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(196 90% 56% / 0.05) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+  .text-clinical {
+    color: hsl(var(--clinical));
+  }
+  .glow-clinical {
+    box-shadow: 0 0 40px -8px hsl(var(--clinical) / 0.5);
+  }
+  .noise::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    mix-blend-mode: overlay;
   }
 }
