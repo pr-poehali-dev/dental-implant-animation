@@ -31,6 +31,64 @@ const STAGES = [
   },
 ];
 
+const SPECS = [
+  { l: 'Длительность', v: '10 сек' },
+  { l: 'Стиль', v: 'Реалистичный' },
+  { l: 'Освещение', v: 'Студийное' },
+  { l: 'Камера', v: 'Орбита 360°' },
+];
+
+const downloadBrief = () => {
+  const w = window.open('', '_blank');
+  if (!w) return;
+  const stagesHtml = STAGES.map((s) => `
+    <div class="stage">
+      <div class="stage-head">
+        <span class="num">${s.id}</span>
+        <div>
+          <div class="sub">${s.subtitle} · ${s.duration}</div>
+          <h2>${s.title}</h2>
+        </div>
+      </div>
+      <p>${s.text}</p>
+      <img src="${s.image}" />
+    </div>`).join('');
+  const specsHtml = SPECS.map((s) => `<tr><td>${s.l}</td><td><b>${s.v}</b></td></tr>`).join('');
+  w.document.write(`<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"/>
+    <title>Бриф · Анимация установки импланта</title>
+    <style>
+      *{box-sizing:border-box;margin:0;padding:0;font-family:'Helvetica Neue',Arial,sans-serif}
+      body{color:#0f1a22;padding:48px;max-width:820px;margin:0 auto}
+      .head{border-bottom:3px solid #1aa3d6;padding-bottom:20px;margin-bottom:32px}
+      .kicker{color:#1aa3d6;font-size:11px;letter-spacing:.25em;text-transform:uppercase;font-weight:700}
+      h1{font-size:30px;margin-top:8px;line-height:1.1}
+      .lead{color:#566;margin-top:12px;font-size:15px;max-width:560px}
+      table{width:100%;border-collapse:collapse;margin:24px 0 40px}
+      td{padding:10px 14px;border:1px solid #e2e8ec;font-size:14px}
+      td:first-child{color:#566;width:40%}
+      .stage{page-break-inside:avoid;margin-bottom:36px;border:1px solid #e2e8ec;border-radius:12px;padding:22px;overflow:hidden}
+      .stage-head{display:flex;align-items:center;gap:16px;margin-bottom:12px}
+      .num{font-size:30px;font-weight:700;color:#1aa3d6}
+      .sub{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#1aa3d6;font-weight:600}
+      h2{font-size:20px;margin-top:2px}
+      .stage p{color:#445;font-size:14px;line-height:1.6;margin-bottom:16px}
+      .stage img{width:100%;border-radius:8px;display:block}
+      .foot{margin-top:40px;padding-top:16px;border-top:1px solid #e2e8ec;color:#99a;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+      @media print{body{padding:24px}}
+    </style></head><body>
+    <div class="head">
+      <div class="kicker">Бриф · Научная визуализация</div>
+      <h1>Анимация установки зубного импланта в 3D</h1>
+      <p class="lead">Чистый научный стиль, анатомическая точность, студийное освещение, плавное движение камеры вокруг 3D-модели челюсти пациента.</p>
+    </div>
+    <table>${specsHtml}</table>
+    ${stagesHtml}
+    <div class="foot">Dental Implant Visualization · Anatomically Accurate · Studio Render</div>
+    <scr` + `ipt>window.onload=function(){setTimeout(function(){window.print()},500)}</scr` + `ipt>
+    </body></html>`);
+  w.document.close();
+};
+
 const Index = () => {
   const [active, setActive] = useState(0);
 
@@ -77,6 +135,19 @@ const Index = () => {
           <p className="mt-6 max-w-xl text-base md:text-lg text-foreground/50 animate-fade-up" style={{ animationDelay: '0.2s' }}>
             Чистый научный стиль, студийное освещение, плавное движение камеры вокруг модели челюсти пациента.
           </p>
+          <div className="mt-8 animate-fade-up" style={{ animationDelay: '0.25s' }}>
+            <button
+              onClick={downloadBrief}
+              className="group inline-flex items-center gap-2.5 rounded-lg border border-clinical/40 bg-clinical/10 px-6 py-3 font-medium text-clinical transition-all duration-300 hover:bg-clinical/20 hover:glow-clinical"
+            >
+              <Icon name="FileDown" size={18} />
+              Скачать бриф в PDF
+              <Icon name="ArrowRight" size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
+            </button>
+            <p className="mt-3 font-mono text-[11px] uppercase tracking-wider text-foreground/30">
+              Все этапы и спецификации для видеостудии
+            </p>
+          </div>
         </div>
 
         {/* Viewer */}
